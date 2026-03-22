@@ -4,16 +4,17 @@ import {
   addDare,
   deleteDare,
 } from "../controllers/dareController.js";
+import { verifyKey } from "../middleware/auth.js";
 
 const router = express.Router();
 
 // GET dares
-router.get("/", getDares);
+router.get("/", verifyKey, getDares);
 
 // ADD dare
-router.post("/", addDare);
+router.post("/", verifyKey, addDare);
 
 // DELETE dare
-router.delete("/:id", deleteDare);
+router.delete("/:id", verifyKey, deleteDare);
 
 export default router;

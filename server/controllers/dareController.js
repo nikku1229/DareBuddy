@@ -8,7 +8,7 @@ export const getDares = async (req, res) => {
     const dares = await Dare.find({
       category,
       type,
-    }).limit(50);
+    }).limit(100);
 
     res.json(dares);
   } catch (error) {
