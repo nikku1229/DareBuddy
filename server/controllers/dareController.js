@@ -40,3 +40,14 @@ export const deleteDare = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+// 🔹 DARE CATEGORY
+export const fetchDareCategory = async (req, res) => {
+  try {
+    const categories = await Dare.distinct("category");
+
+    res.json(categories);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
