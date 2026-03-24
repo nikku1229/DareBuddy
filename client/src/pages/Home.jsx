@@ -20,7 +20,7 @@ export default function Home() {
         <button onClick={() => navigate("/setup")} className="primary-btn">
           Start Game!
         </button>
-        <ul>
+        <ul className="usps">
           <li>2-20 Players</li>
           <li>20+ Locations</li>
           <li>500+ Dares</li>

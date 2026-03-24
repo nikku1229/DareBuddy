@@ -31,7 +31,6 @@ export default function GamePlay() {
   useEffect(() => {
     const getData = async () => {
       const res = await fetchDares(category, type);
-
       setDares(res.data);
     };
 

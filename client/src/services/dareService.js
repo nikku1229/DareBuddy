@@ -30,3 +30,12 @@ export const deleteDare = (id) => {
     },
   });
 };
+
+// GET CATEGORIES
+export const fetchDaresCategory = () => {
+  return API.get("/dares/categories", {
+    headers: {
+      "x-game-key": import.meta.env.VITE_GAME_KEY,
+    },
+  });
+};

@@ -1,20 +1,17 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { usePlayer } from "../context/PlayerContext";
+import Header from "../components/Header";
+import FirstForm from "../components/FirstForm";
+import SecondForm from "../components/SecondForm";
+import ThirdForm from "../components/ThirdForm";
+import ForthForm from "../components/ForthForm";
+import NextArrowIcon from "../assets/Icons/NextArrowIcon.svg";
+import PreviousArrowIcon from "../assets/Icons/PreviousArrowIcon.svg";
 
 export default function SetupGame() {
   const navigate = useNavigate();
-
-  const [step, setStep] = useState(1);
-  const [playersCount, setPlayersCount] = useState(2);
-  const [category, setCategory] = useState("");
-  const [type, setType] = useState("");
-  const [names, setNames] = useState([]);
-
-  // NEXT
-  const next = () => setStep(step + 1);
-
-  // BACK
-  const back = () => setStep(step - 1);
+  const { step, category, type, names, next, back } = usePlayer();
 
   // START GAME
   const startGame = () => {
@@ -22,81 +19,52 @@ export default function SetupGame() {
       state: {
         players: names,
         category,
-        type
-      }
+        type,
+      },
     });
   };
 
   return (
-    <div style={{ textAlign: "center" }}>
-      <h2>Step {step}</h2>
+    <div className="main-container">
+      <Header></Header>
+      <div className="form-container">
+        <ul className="steps">
+          <li className="step active-step"></li>
+          <li className={`step ${step >= 2 && "active-step"}`}></li>
+          <li className={`step ${step >= 3 && "active-step"}`}></li>
+          <li className={`step ${step >= 4 && "active-step"}`}></li>
+        </ul>
 
-      {/* STEP 1: PLAYER COUNT */}
-      {step === 1 && (
-        <div>
-          <h3>Select Players</h3>
-          <button onClick={() => setPlayersCount(playersCount - 1)}>-</button>
-          <span>{playersCount}</span>
-          <button onClick={() => setPlayersCount(playersCount + 1)}>+</button>
+        {step === 1 && <FirstForm />}
 
-          <br /><br />
-          <button onClick={next}>Next</button>
-        </div>
-      )}
+        {step === 2 && <SecondForm />}
 
-      {/* STEP 2: CATEGORY */}
-      {step === 2 && (
-        <div>
-          <h3>Select Location</h3>
+        {step === 3 && <ThirdForm />}
 
-          {["office", "college", "park", "home"].map((c) => (
-            <button key={c} onClick={() => setCategory(c)}>
-              {c}
+        {step === 4 && <ForthForm />}
+
+        <section className="form-change-btns">
+          {step >= 2 && (
+            <button onClick={back} className="back-btn primary-btn">
+              <img src={PreviousArrowIcon} alt="back" />
+              Back
             </button>
-          ))}
+          )}
+          {step < 4 && (
+            <button onClick={next} className="next-btn secondary-btn">
+              Next
+              <img src={NextArrowIcon} alt="next" />
+            </button>
+          )}
 
-          <br /><br />
-          <button onClick={back}>Back</button>
-          <button onClick={next}>Next</button>
-        </div>
-      )}
-
-      {/* STEP 3: TYPE */}
-      {step === 3 && (
-        <div>
-          <h3>Select Type</h3>
-
-          <button onClick={() => setType("veg")}>Veg</button>
-          <button onClick={() => setType("nonveg")}>Non-Veg</button>
-
-          <br /><br />
-          <button onClick={back}>Back</button>
-          <button onClick={next}>Next</button>
-        </div>
-      )}
-
-      {/* STEP 4: PLAYER NAMES */}
-      {step === 4 && (
-        <div>
-          <h3>Enter Player Names</h3>
-
-          {Array.from({ length: playersCount }).map((_, i) => (
-            <input
-              key={i}
-              placeholder={`Player ${i + 1}`}
-              onChange={(e) => {
-                const newNames = [...names];
-                newNames[i] = e.target.value;
-                setNames(newNames);
-              }}
-            />
-          ))}
-
-          <br /><br />
-          <button onClick={back}>Back</button>
-          <button onClick={startGame}>Start Game</button>
-        </div>
-      )}
+          {step === 4 && (
+            <button onClick={startGame} className="start-btn secondary-btn">
+              start Game
+              <img src={NextArrowIcon} alt="next" />
+            </button>
+          )}
+        </section>
+      </div>
     </div>
   );
 }
