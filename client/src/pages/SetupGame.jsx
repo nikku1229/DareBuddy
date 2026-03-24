@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { usePlayer } from "../context/PlayerContext";
 import Header from "../components/Header";
@@ -11,17 +10,21 @@ import PreviousArrowIcon from "../assets/Icons/PreviousArrowIcon.svg";
 
 export default function SetupGame() {
   const navigate = useNavigate();
-  const { step, category, type, names, next, back } = usePlayer();
+  const { step, category, type, names, next, back, playersCount } = usePlayer();
 
   // START GAME
   const startGame = () => {
-    navigate("/game", {
-      state: {
-        players: names,
-        category,
-        type,
-      },
-    });
+    if (step === 4 && playersCount !== names.length) {
+      alert("Fill all the name first");
+    } else {
+      navigate("/game", {
+        state: {
+          players: names,
+          category,
+          type,
+        },
+      });
+    }
   };
 
   return (
