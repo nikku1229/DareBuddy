@@ -1,31 +1,42 @@
-import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { fetchDares } from "../services/dareService";
+import { useGame } from "../context/GameContext";
+import GameHeader from "../components/GameHeader";
 
 export default function GamePlay() {
-  const { state } = useLocation();
   const navigate = useNavigate();
+  const { state } = useLocation();
+  const {
+    dares,
+    setDares,
+    diceResults,
+    setDiceResults,
+    winner,
+    setWinner,
+    usedDares,
+    setUsedDares,
+    currentDare,
+    setCurrentDare,
+    customDare,
+    setCustomDare,
+    customDares,
+    setCustomDares,
+    round,
+    setRound,
+    gameOver,
+    setGameOver,
+    currentPlayerIndex,
+    setCurrentPlayerIndex,
+    hasRolled,
+    setHasRolled,
+    roundFinished,
+    setRoundFinished,
+  } = useGame();
 
   const players = state.players;
   const category = state.category;
   const type = state.type;
-
-  const [diceResults, setDiceResults] = useState([]);
-  const [winner, setWinner] = useState(null);
-  const [dares, setDares] = useState([]);
-  const [usedDares, setUsedDares] = useState([]);
-  const [currentDare, setCurrentDare] = useState("");
-
-  const [customDare, setCustomDare] = useState("");
-  const [customDares, setCustomDares] = useState([]);
-
-  const [round, setRound] = useState(1);
-  const [gameOver, setGameOver] = useState(false);
-
-  const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
-  const [hasRolled, setHasRolled] = useState([]);
-  const [roundFinished, setRoundFinished] = useState(false);
 
   // 🎯 Fetch dares (ONLY ONCE)
   useEffect(() => {
@@ -112,65 +123,68 @@ export default function GamePlay() {
   };
 
   // ➕ Add custom dare
-  const addCustomDare = () => {
-    if (!customDare) return;
+  // const addCustomDare = (e) => {
+  //   e.preventDefault();
+  //   if (!customDare) return;
 
-    setCustomDares([...customDares, customDare]);
-    setCustomDare("");
-  };
+  //   setCustomDares([...customDares, customDare]);
+  //   setCustomDare("");
+  // };
 
   return (
-    <div style={{ textAlign: "center" }}>
-      <h2>🎮 DareBuddy Game</h2>
+    <>
+      <GameHeader players={players} category={category} type={type} />
 
-      <h3>Turn: {players[currentPlayerIndex]}</h3>
-      <h3>Round: {round}</h3>
-      {players.map((p, i) => (
-        <p key={i}>{p}</p>
-      ))}
+      <div style={{ textAlign: "center" }}>
+        <h2>🎮 DareBuddy Game</h2>
 
-      {!roundFinished && <button onClick={rollDice}>🎲 Roll Dice</button>}
+        <h3>Turn: {players[currentPlayerIndex]}</h3>
+        <h3>Round: {round}</h3>
+        {players.map((p, i) => (
+          <p key={i}>{p}</p>
+        ))}
 
-      {diceResults.length > 0 && (
-        <div>
-          <h3>Results:</h3>
-          {diceResults.map((p, i) => (
-            <p key={i}>
-              {p.name}: {p.value}
-            </p>
-          ))}
-        </div>
-      )}
+        {!roundFinished && <button onClick={rollDice}>🎲 Roll Dice</button>}
 
-      {winner && (
-        <h2 style={{ color: "red" }}>{winner.name} will do the dare!</h2>
-      )}
+        {diceResults.length > 0 && (
+          <div>
+            <h3>Results:</h3>
+            {diceResults.map((p, i) => (
+              <p key={i}>
+                {p.name}: {p.value}
+              </p>
+            ))}
+          </div>
+        )}
 
-      {roundFinished && !currentDare && (
-        <button onClick={getDare}>Show Dare</button>
-      )}
+        {winner && (
+          <h2 style={{ color: "red" }}>{winner.name} will do the dare!</h2>
+        )}
 
-      {currentDare && <h3>{currentDare}</h3>}
+        {roundFinished && !currentDare && (
+          <button onClick={getDare}>Show Dare</button>
+        )}
 
-      {currentDare && !gameOver && (
-        <button onClick={nextRound}>Next Round 🔄</button>
-      )}
+        {currentDare && <h3>{currentDare}</h3>}
 
-      {gameOver && (
-        <div>
-          <h2>🎉 Game Over!</h2>
-          <button onClick={restartGame}>Restart Game 🔁</button>
-        </div>
-      )}
+        {currentDare && !gameOver && (
+          <button onClick={nextRound}>Next Round 🔄</button>
+        )}
 
-      <hr />
+        {gameOver && (
+          <div>
+            <h2>🎉 Game Over!</h2>
+            <button onClick={restartGame}>Restart Game 🔁</button>
+          </div>
+        )}
 
-      <h3>Add Custom Dare</h3>
-      <input
-        value={customDare}
-        onChange={(e) => setCustomDare(e.target.value)}
-      />
-      <button onClick={addCustomDare}>Add</button>
-    </div>
+        {/* <h3>Add Custom Dare</h3>
+        <input
+          value={customDare}
+          onChange={(e) => setCustomDare(e.target.value)}
+        />
+        <button onClick={addCustomDare}>Add</button> */}
+      </div>
+    </>
   );
 }

@@ -415,7 +415,6 @@ header {
   display: flex;
   width: 100%;
   height: 100%;
-  display: flex;
   top: 0;
   left: 0;
   background-color: rgba(0, 0, 0, 0.3);
@@ -542,6 +541,114 @@ header {
   }
 }
 
+.game-header {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background-color: var(--dark);
+  border-bottom: 1px solid var(--light-opacity-20);
+
+  .header {
+    width: 100%;
+    max-width: 1440px;
+    padding: 20px 15px;
+    display: flex;
+    justify-content: space-between;
+
+    .game-details {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      height: 100%;
+      font-size: 16px;
+
+      img {
+        width: 35px;
+        cursor: pointer;
+      }
+    }
+
+    .custom-dare-add-btn {
+      width: 30px;
+      height: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: var(--light-opacity-20);
+      border-radius: 10px;
+      font-size: 1.6rem;
+      cursor: pointer;
+    }
+  }
+}
+
+.custom-dare-section {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(3px);
+
+  .custom-dare-field {
+    position: relative;
+    width: 400px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--charcol);
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px solid var(--light-opacity-40);
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+
+    .head {
+      display: flex;
+      justify-content: space-between;
+
+      h3 {
+        font-size: 2rem;
+      }
+
+      img {
+        cursor: pointer;
+      }
+    }
+
+    .content {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+
+      input {
+        background-color: var(--charcol);
+        border: 1px solid var(--light-opacity-70);
+        border-radius: 10px;
+        padding: 12px 8px;
+        color: var(--light);
+        font-size: 1.1rem;
+
+        &::placeholder {
+          color: var(--light-opacity-40);
+        }
+      }
+
+      button {
+        height: 40px;
+        font-size: 1.1rem;
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        border-radius: 10px;
+      }
+    }
+  }
+}
+
 @media screen and (max-width: 1024px) {
   .logo {
     width: 80px;
@@ -562,6 +669,10 @@ header {
       width: 60px;
       height: 60px;
     }
+  }
+
+  .game-header .header {
+    padding: 20px;
   }
 }
 
@@ -703,5 +814,35 @@ header {
 
   .input-area input {
     width: 100% !important;
+  }
+
+  .game-header .header {
+    padding: 10px 15px;
+  }
+
+  .game-details {
+    gap: 15px !important;
+  }
+
+  .game-details.m-game-details {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 5px !important;
+  }
+
+  .custom-dare-section {
+    padding: 10px 20px;
+  }
+
+  .custom-dare-field {
+    width: 100% !important;
+  }
+
+  .custom-dare-field h3 {
+    font-size: 1.2rem !important;
+  }
+
+  .custom-dare-field img {
+    width: 20px !important;
   }
 }
