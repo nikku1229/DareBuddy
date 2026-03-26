@@ -9,6 +9,7 @@ function SecondForm() {
   const { dareCategories, setDareCategories, category, setCategory } =
     usePlayer();
   const [isMoreCategoryVisible, setIsMoreCategoryVisible] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(7);
 
   const categoryIcon = {
     beach: "🏄‍♂️",
@@ -29,6 +30,23 @@ function SecondForm() {
     getCategories();
   }, []);
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 500) {
+        setVisibleCount(3);
+      } else if (window.innerWidth <= 768) {
+        setVisibleCount(5);
+      } else {
+        setVisibleCount(7);
+      }
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <>
       <section className="category-section">
@@ -36,8 +54,10 @@ function SecondForm() {
           <img src={LocationIcon} alt="Category" />
         </div>
         <h2>Where to Play?</h2>
-        <div className="select-box">
-          {dareCategories.slice(0, 7).map((c) => (
+
+        {/* Desktop view */}
+        <div className="select-box desk-show">
+          {dareCategories.slice(0, visibleCount).map((c) => (
             <div
               key={c}
               onClick={() => setCategory(c)}
@@ -59,7 +79,7 @@ function SecondForm() {
       </section>
       <Activity mode={isMoreCategoryVisible ? "visible" : "hidden"}>
         <section className="more-category-section">
-          <div className="select-box-container">
+          <div className="select-box-container desk-show">
             <div className="head">
               <h3>Select Category</h3>
               <img
@@ -69,7 +89,7 @@ function SecondForm() {
               />
             </div>
             <div className="content">
-              {dareCategories.slice(7).map((c) => (
+              {dareCategories.slice(visibleCount).map((c) => (
                 <div
                   key={c}
                   onClick={() => setCategory(c)}

@@ -836,6 +836,10 @@ header {
   }
 }
 
+.select-box.l-hide {
+  display: none;
+}
+
 @media screen and (max-width: 1024px) {
   .logo {
     width: 80px;
@@ -849,12 +853,12 @@ header {
   }
 
   .icon-box {
-    width: 100px !important;
-    height: 100px !important;
+    width: 80px !important;
+    height: 80px !important;
 
     img {
-      width: 60px;
-      height: 60px;
+      width: 50px;
+      height: 50px;
     }
   }
 
@@ -889,6 +893,10 @@ header {
 
   .select-box {
     grid-template-columns: repeat(3, 1fr);
+  }
+
+  .select-box.l-hide {
+    display: flex;
   }
 }
 
@@ -954,6 +962,14 @@ header {
   .toogle-player-count {
     width: 40px !important;
     height: 40px !important;
+  }
+
+  .more-category-section {
+    padding: 0px 20px;
+  }
+
+  .head h3 {
+    font-size: 24px !important;
   }
 
   .form-container {
@@ -1032,4 +1048,52 @@ header {
   .custom-dare-field img {
     width: 20px !important;
   }
+
+  .player-results {
+    width: 100% !important;
+    padding: 0px 10px;
+  }
+
+  .show-dare-section {
+    width: 90% !important;
+  }
+
+  .game-over-section .icon-box {
+    width: 100px !important;
+    height: 100px !important;
+  }
 }
+
+/* 
+@media screen and (min-width: 769px) {
+  .select-box .desk-show {
+    display: grid !important;
+  }
+
+  .lap-show,
+  .mob-show {
+    display: none !important;
+  }
+}
+
+@media screen and (max-width: 768px) and (min-width: 501px) {
+  .select-box .lap-show {
+    display: grid !important;
+  }
+
+  .desk-show,
+  .mob-show {
+    display: none !important;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .mob-show {
+    display: grid !important;
+  }
+
+  .desk-show,
+  .lap-show {
+    display: none !important;
+  }
+} */
