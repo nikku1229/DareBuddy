@@ -1,5 +1,3 @@
-import React from "react";
-
 function BackGround() {
   return (
     <div className="background-container">
