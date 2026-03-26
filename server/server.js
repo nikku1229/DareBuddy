@@ -12,11 +12,18 @@ connectDB();
 
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  }),
+);
+
 app.use(express.json());
 
-app.use("/api/dares", dareLimiter, dareRoutes);
 app.use("/api", limiter);
+app.use("/api/dares", dareLimiter, dareRoutes);
 
 app.get("/", (req, res) => {
   res.send("Server Running 🚀");
