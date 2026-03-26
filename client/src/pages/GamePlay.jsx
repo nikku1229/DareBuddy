@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { fetchDares } from "../services/dareService";
 import { useGame } from "../context/GameContext";
 import GameHeader from "../components/GameHeader";
+import GameStart from "../components/GameStart";
 
 export default function GamePlay() {
   const navigate = useNavigate();
@@ -12,8 +13,8 @@ export default function GamePlay() {
     setDares,
     diceResults,
     setDiceResults,
-    winner,
-    setWinner,
+    lost,
+    setLost,
     usedDares,
     setUsedDares,
     currentDare,
@@ -32,6 +33,8 @@ export default function GamePlay() {
     setHasRolled,
     roundFinished,
     setRoundFinished,
+    rollDice,
+    nextRound,
   } = useGame();
 
   const players = state.players;
@@ -49,94 +52,87 @@ export default function GamePlay() {
   }, []);
 
   // roll dice
-  const rollDice = () => {
-    const totalDares = dares.length + customDares.length;
+  // const rollDice = () => {
+  //   const totalDares = dares.length + customDares.length;
 
-    if (usedDares.length >= totalDares) {
-      setGameOver(true);
-      return;
-    }
+  //   if (usedDares.length >= totalDares) {
+  //     setGameOver(true);
+  //     return;
+  //   }
 
-    const currentPlayer = players[currentPlayerIndex];
+  //   const currentPlayer = players[currentPlayerIndex];
 
-    const value = Math.floor(Math.random() * 100) + 1;
+  //   const value = Math.floor(Math.random() * 100) + 1;
 
-    const newResults = [...diceResults];
-    newResults.push({ name: currentPlayer, value });
+  //   const newResults = [...diceResults];
+  //   newResults.push({ name: currentPlayer, value });
 
-    setDiceResults(newResults);
-    setHasRolled([...hasRolled, currentPlayer]);
+  //   setDiceResults(newResults);
+  //   setHasRolled([...hasRolled, currentPlayer]);
 
-    // Next player turn
-    if (currentPlayerIndex < players.length - 1) {
-      setCurrentPlayerIndex(currentPlayerIndex + 1);
-    } else {
-      // All players rolled
-      const lowest = newResults.reduce((min, p) =>
-        p.value < min.value ? p : min,
-      );
+  //  // Next player turn
+  //   if (currentPlayerIndex < players.length - 1) {
+  //     setCurrentPlayerIndex(currentPlayerIndex + 1);
+  //   } else {
+  //     // All players rolled
+  //     const lowest = newResults.reduce((min, p) =>
+  //       p.value < min.value ? p : min,
+  //     );
 
-      setWinner(lowest);
-      setRoundFinished(true);
-    }
-  };
+  //     setLost(lowest);
+  //     setRoundFinished(true);
+  //   }
+  // };
 
   // 🎯 Get random dare (no repeat + custom merge)
-  const getDare = () => {
-    if (!roundFinished) {
-      alert("All players must roll dice first!");
-      return;
-    }
+  // const getDare = () => {
+  //   if (!roundFinished) {
+  //     alert("All players must roll dice first!");
+  //     return;
+  //   }
 
-    if (currentDare) return; // ❌ ek round me ek hi dare
+  //   if (currentDare) return;
 
-    const allDares = [
-      ...dares.map((d) => ({ text: d.text, id: d._id })),
-      ...customDares.map((d, i) => ({ text: d, id: "custom" + i })),
-    ];
+  //   const allDares = [
+  //     ...dares.map((d) => ({ text: d.text, id: d._id })),
+  //     ...customDares.map((d, i) => ({ text: d, id: "custom" + i })),
+  //   ];
 
-    const available = allDares.filter((d) => !usedDares.includes(d.id));
+  //   const available = allDares.filter((d) => !usedDares.includes(d.id));
 
-    if (available.length === 0) {
-      setGameOver(true);
-      return;
-    }
+  //   if (available.length === 0) {
+  //     setGameOver(true);
+  //     return;
+  //   }
 
-    const random = available[Math.floor(Math.random() * available.length)];
+  //   const random = available[Math.floor(Math.random() * available.length)];
 
-    setCurrentDare(random.text);
-    setUsedDares([...usedDares, random.id]);
-  };
+  //   setCurrentDare(random.text);
+  //   setUsedDares([...usedDares, random.id]);
+  // };
 
-  const nextRound = () => {
-    setRound(round + 1);
-    setDiceResults([]);
-    setWinner(null);
-    setCurrentDare("");
-    setCurrentPlayerIndex(0);
-    setHasRolled([]);
-    setRoundFinished(false);
-  };
+  // const nextRound = () => {
+  //   setRound(round + 1);
+  //   setDiceResults([]);
+  //   setLost(null);
+  //   setCurrentDare("");
+  //   setCurrentPlayerIndex(0);
+  //   setHasRolled([]);
+  //   setRoundFinished(false);
+  // };
 
-  const restartGame = () => {
-    navigate("/");
-  };
-
-  // ➕ Add custom dare
-  // const addCustomDare = (e) => {
-  //   e.preventDefault();
-  //   if (!customDare) return;
-
-  //   setCustomDares([...customDares, customDare]);
-  //   setCustomDare("");
+  // const restartGame = () => {
+  //   navigate("/");
   // };
 
   return (
     <>
       <GameHeader players={players} category={category} type={type} />
 
+      <GameStart players={players} />
+
       <div style={{ textAlign: "center" }}>
-        <h2>🎮 DareBuddy Game</h2>
+        {/* <h2>🎮 DareBuddy Game</h2>
 
         <h3>Turn: {players[currentPlayerIndex]}</h3>
         <h3>Round: {round}</h3>
@@ -144,9 +140,11 @@ export default function GamePlay() {
           <p key={i}>{p}</p>
         ))}
 
-        {!roundFinished && <button onClick={rollDice}>🎲 Roll Dice</button>}
+        {!roundFinished && (
+          <button onClick={() => rollDice(players)}>🎲 Roll Dice</button>
+        )} */}
 
-        {diceResults.length > 0 && (
+        {/* {diceResults.length > 0 && (
           <div>
             <h3>Results:</h3>
             {diceResults.map((p, i) => (
@@ -155,35 +153,28 @@ export default function GamePlay() {
               </p>
             ))}
           </div>
-        )}
+        )} */}
 
-        {winner && (
-          <h2 style={{ color: "red" }}>{winner.name} will do the dare!</h2>
-        )}
+        {/* {lost && (
+          <h2 style={{ color: "red" }}>{lost.name} will do the dare!</h2>
+        )} */}
 
-        {roundFinished && !currentDare && (
+        {/* {roundFinished && !currentDare && (
           <button onClick={getDare}>Show Dare</button>
-        )}
+        )} */}
 
-        {currentDare && <h3>{currentDare}</h3>}
+        {/* {currentDare && <h3>{currentDare}</h3>} */}
 
-        {currentDare && !gameOver && (
+        {/* {currentDare && !gameOver && (
           <button onClick={nextRound}>Next Round 🔄</button>
-        )}
+        )} */}
 
-        {gameOver && (
+        {/* {gameOver && (
           <div>
             <h2>🎉 Game Over!</h2>
             <button onClick={restartGame}>Restart Game 🔁</button>
           </div>
-        )}
-
-        {/* <h3>Add Custom Dare</h3>
-        <input
-          value={customDare}
-          onChange={(e) => setCustomDare(e.target.value)}
-        />
-        <button onClick={addCustomDare}>Add</button> */}
+        )} */}
       </div>
     </>
   );
