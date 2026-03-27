@@ -915,8 +915,20 @@ header {
   }
 }
 
-.select-box.l-hide {
-  display: none;
+.error-page {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+
+  button {
+    font-size: 1.2rem;
+    width: 150px;
+    height: 50px;
+  }
 }
 
 @media screen and (max-width: 1024px) {
