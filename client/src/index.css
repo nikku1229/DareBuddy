@@ -169,6 +169,85 @@ header {
   }
 }
 
+.toast {
+  position: absolute;
+  top: 60px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--charcol);
+  padding: 10px 15px;
+  border-radius: 10px;
+  border: 1px solid var(--light-opacity-40);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  animation: toast 300ms ease;
+
+  img {
+    width: 30px;
+  }
+}
+
+@keyframes toast {
+  0% {
+    top: -100px;
+  }
+  100% {
+    top: 60px;
+  }
+}
+
+.loader {
+  display: flex;
+  gap: 15px;
+  height: 50px;
+  align-items: end;
+  position: relative;
+
+  .loader-circle {
+    position: relative;
+    width: 15px;
+    height: 15px;
+    background-color: var(--secondary-color);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: loading 1s ease-in infinite;
+  }
+  .first {
+    animation-delay: 0s;
+  }
+  .second {
+    animation-delay: 100ms;
+  }
+  .third {
+    animation-delay: 200ms;
+  }
+  .forth {
+    animation-delay: 300ms;
+  }
+  .fifth {
+    animation-delay: 400ms;
+  }
+}
+
+@keyframes loading {
+  0% {
+    top: 0px;
+    background-color: var(--secondary-color);
+  }
+  50% {
+    top: -25px;
+    background-color: var(--primary-color);
+  }
+  100% {
+    top: 0px;
+    background-color: var(--secondary-color);
+  }
+}
+
 .home-container {
   width: 100%;
   display: flex;

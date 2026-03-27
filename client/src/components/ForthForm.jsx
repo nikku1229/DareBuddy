@@ -1,4 +1,5 @@
 import { usePlayer } from "../context/PlayerContext";
+import Toast from "./Toast";
 import AddUserIcon from "../assets/Icons/AddUserIcon.svg";
 
 function ForthForm() {
@@ -6,6 +7,7 @@ function ForthForm() {
 
   return (
     <>
+      <Toast />
       <section className="player-input-section">
         <div className="icon-box">
           <img src={AddUserIcon} alt="playername" />

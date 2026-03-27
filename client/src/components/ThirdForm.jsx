@@ -1,4 +1,5 @@
 import { usePlayer } from "../context/PlayerContext";
+import Toast from "../components/Toast";
 import ShieldIcon from "../assets/Icons/ShieldIcon.svg";
 import LeafIcon from "../assets/Icons/LeafIcon.svg";
 import FireIcon from "../assets/Icons/FireIcon-o.svg";
@@ -8,6 +9,7 @@ function ThirdForm() {
 
   return (
     <>
+      <Toast />
       <section className="type-section">
         <div className="icon-box">
           <img src={ShieldIcon} alt="type" />

@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { useGame } from "../context/GameContext";
+import { useAlert } from "../context/AlertContext";
 import ShowDare from "../components/ShowDare";
 import GameOver from "../components/GameOver";
+import Loader from "../components/Loader";
 import DiceIcon from "../assets/Icons/DiceIcon.svg";
 import ThunderIcon from "../assets/Icons/ThunderIcon.svg";
 
@@ -18,6 +20,7 @@ function GameStart({ players }) {
     getDare,
     gameOver,
   } = useGame();
+  const { showAlert, loader, setloader } = useAlert();
 
   const [diceInterval, setDiceInterval] = useState("");
 
@@ -69,33 +72,41 @@ function GameStart({ players }) {
               </div>
             )}
 
-            {!roundFinished && (
-              <div className="dice-section">
-                <p>Dice roll (1-100)</p>
-                {isDiceRoll && (
-                  <>
-                    <h3>{diceInterval}</h3>
+            {loader ? (
+              <>
+                <Loader />
+              </>
+            ) : (
+              <>
+                {!roundFinished && (
+                  <div className="dice-section">
+                    <p>Dice roll (1-100)</p>
+                    {isDiceRoll && (
+                      <>
+                        <h3>{diceInterval}</h3>
 
-                    <button className="secondary-btn" disabled>
-                      <img src={DiceIcon} alt="Roll" />
-                      Roll Dice!
-                    </button>
-                  </>
-                )}
+                        <button className="secondary-btn" disabled>
+                          <img src={DiceIcon} alt="Roll" />
+                          Roll Dice!
+                        </button>
+                      </>
+                    )}
 
-                {!isDiceRoll && (
-                  <button
-                    className="secondary-btn"
-                    onClick={() => {
-                      rollDice(players);
-                      diceRolling();
-                    }}
-                  >
-                    <img src={DiceIcon} alt="Roll" />
-                    Roll Dice!
-                  </button>
+                    {!isDiceRoll && (
+                      <button
+                        className="secondary-btn"
+                        onClick={() => {
+                          rollDice(players);
+                          diceRolling();
+                        }}
+                      >
+                        <img src={DiceIcon} alt="Roll" />
+                        Roll Dice!
+                      </button>
+                    )}
+                  </div>
                 )}
-              </div>
+              </>
             )}
 
             {roundFinished && !currentDare && lost && (

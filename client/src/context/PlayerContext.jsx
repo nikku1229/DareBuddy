@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from "react";
+import { useAlert } from "./AlertContext";
 
 const PlayerContext = createContext();
 
@@ -10,12 +11,14 @@ export const PlayerProvider = ({ children }) => {
   const [names, setNames] = useState([]);
   const [dareCategories, setDareCategories] = useState([]);
 
+  const { showToast } = useAlert();
+
   // NEXT
   const next = () => {
     if (step === 2 && category.length === 0) {
-      alert("Plese select an option");
+      showToast("Plese select an option");
     } else if (step === 3 && type.length === 0) {
-      alert("Plese select an option");
+      showToast("Plese select an option");
     } else if (step >= 4) {
       setStep(4);
     } else setStep(step + 1);

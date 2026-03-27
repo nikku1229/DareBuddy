@@ -1,6 +1,9 @@
 import { useEffect, useState, Activity } from "react";
 import { fetchDaresCategory } from "../services/dareService";
 import { usePlayer } from "../context/PlayerContext";
+import { useAlert } from "../context/AlertContext";
+import Toast from "./Toast";
+import Loader from "./Loader";
 import LocationIcon from "../assets/Icons/LocationIcon.svg";
 import CatagoryIcon from "../assets/Icons/CatagoryIcon.svg";
 import CrossIcon from "../assets/Icons/CrossIcon.svg";
@@ -8,6 +11,7 @@ import CrossIcon from "../assets/Icons/CrossIcon.svg";
 function SecondForm() {
   const { dareCategories, setDareCategories, category, setCategory } =
     usePlayer();
+  const { loader, setLoader, showToast } = useAlert();
   const [isMoreCategoryVisible, setIsMoreCategoryVisible] = useState(false);
   const [visibleCount, setVisibleCount] = useState(7);
 
@@ -23,8 +27,15 @@ function SecondForm() {
 
   useEffect(() => {
     const getCategories = async () => {
-      const res = await fetchDaresCategory();
-      setDareCategories(res.data);
+      try {
+        setLoader(true);
+        const res = await fetchDaresCategory();
+        setDareCategories(res.data);
+      } catch (err) {
+        showToast("Network Error!");
+      } finally {
+        setLoader(false);
+      }
     };
 
     getCategories();
@@ -49,33 +60,40 @@ function SecondForm() {
 
   return (
     <>
+      <Toast />
       <section className="category-section">
         <div className="icon-box">
           <img src={LocationIcon} alt="Category" />
         </div>
         <h2>Where to Play?</h2>
 
-        {/* Desktop view */}
-        <div className="select-box desk-show">
-          {dareCategories.slice(0, visibleCount).map((c) => (
+        {loader ? (
+          <>
+            <Loader />
+          </>
+        ) : (
+          <div className="select-box desk-show">
+            {dareCategories &&
+              dareCategories.slice(0, visibleCount).map((c) => (
+                <div
+                  key={c}
+                  onClick={() => setCategory(c)}
+                  className={`option-box ${category === c ? "active" : ""}`}
+                >
+                  <span>{categoryIcon[c] || "💫"}</span> {c}
+                </div>
+              ))}
             <div
-              key={c}
-              onClick={() => setCategory(c)}
-              className={`option-box ${category === c ? "active" : ""}`}
+              className="option-box"
+              onClick={() => setIsMoreCategoryVisible(!isMoreCategoryVisible)}
             >
-              <span>{categoryIcon[c] || "💫"}</span> {c}
+              <span>
+                <img src={CatagoryIcon} alt="more" />
+              </span>
+              See more
             </div>
-          ))}
-          <div
-            className="option-box"
-            onClick={() => setIsMoreCategoryVisible(!isMoreCategoryVisible)}
-          >
-            <span>
-              <img src={CatagoryIcon} alt="more" />
-            </span>
-            See more
           </div>
-        </div>
+        )}
       </section>
       <Activity mode={isMoreCategoryVisible ? "visible" : "hidden"}>
         <section className="more-category-section">
@@ -88,17 +106,22 @@ function SecondForm() {
                 onClick={() => setIsMoreCategoryVisible(!isMoreCategoryVisible)}
               />
             </div>
-            <div className="content">
-              {dareCategories.slice(visibleCount).map((c) => (
-                <div
-                  key={c}
-                  onClick={() => setCategory(c)}
-                  className={`option-box ${category === c ? "active" : ""}`}
-                >
-                  {c}
-                </div>
-              ))}
-            </div>
+            {loader ? (
+              <Loader />
+            ) : (
+              <div className="content">
+                {dareCategories &&
+                  dareCategories.slice(visibleCount).map((c) => (
+                    <div
+                      key={c}
+                      onClick={() => setCategory(c)}
+                      className={`option-box ${category === c ? "active" : ""}`}
+                    >
+                      {c}
+                    </div>
+                  ))}
+              </div>
+            )}
           </div>
         </section>
       </Activity>

@@ -1,11 +1,15 @@
 import { usePlayer } from "../context/PlayerContext";
+import { useAlert } from "../context/AlertContext";
+import Toast from "../components/Toast";
 import UserIcon from "../assets/Icons/UserIcon.svg";
 
 function FirstForm() {
   const { playersCount, setPlayersCount } = usePlayer();
+  const { showToast } = useAlert();
 
   return (
     <>
+      <Toast />
       <section className="player-count-section">
         <div className="icon-box">
           <img src={UserIcon} alt="Users" />
@@ -16,7 +20,7 @@ function FirstForm() {
           <button
             onClick={() => {
               if (playersCount <= 2) {
-                alert("minimum 2 player need");
+                showToast("minimum 2 player need");
               } else {
                 setPlayersCount(playersCount - 1);
               }
@@ -29,7 +33,7 @@ function FirstForm() {
           <button
             onClick={() => {
               if (playersCount >= 20) {
-                alert("Max 20 player");
+                showToast("Max 20 player");
               } else {
                 setPlayersCount(playersCount + 1);
               }

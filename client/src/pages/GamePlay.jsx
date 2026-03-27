@@ -1,13 +1,16 @@
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { fetchDares } from "../services/dareService";
 import { useGame } from "../context/GameContext";
+import { useAlert } from "../context/AlertContext";
 import GameHeader from "../components/GameHeader";
 import GameStart from "../components/GameStart";
 
 export default function GamePlay() {
   const { state } = useLocation();
+  const navigate = useNavigate();
   const { setDares } = useGame();
+  const { setLoader, showToast } = useAlert();
 
   const players = state.players;
   const category = state.category;
@@ -15,8 +18,16 @@ export default function GamePlay() {
 
   useEffect(() => {
     const getData = async () => {
-      const res = await fetchDares(category, type);
-      setDares(res.data);
+      try {
+        setLoader(true);
+        const res = await fetchDares(category, type);
+        setDares(res.data);
+      } catch (err) {
+        showToast("Network Error");
+        navigate("setup");
+      } finally {
+        setLoader(false);
+      }
     };
 
     getData();
