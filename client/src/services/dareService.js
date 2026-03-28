@@ -11,15 +11,11 @@ export const fetchDares = (category, type) => {
 
 // ADD DARE
 export const addDare = (data) => {
-  return API.post(
-    "/dares",
-    {
-      headers: {
-        "x-game-key": import.meta.env.VITE_GAME_KEY,
-      },
+  return API.post("/dares", data, {
+    headers: {
+      "x-game-key": import.meta.env.VITE_GAME_KEY,
     },
-    data,
-  );
+  });
 };
 
 // DELETE DARE

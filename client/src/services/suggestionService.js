@@ -8,3 +8,12 @@ export const fetchSuggestions = () => {
     },
   });
 };
+
+// ADD SUGGESTIONS
+export const addSuggestions = (data) => {
+  return API.post("/suggestions", data, {
+    headers: {
+      "x-game-key": import.meta.env.VITE_GAME_KEY,
+    },
+  });
+};
