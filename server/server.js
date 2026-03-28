@@ -3,7 +3,12 @@ import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import dareRoutes from "./routes/dareRoutes.js";
-import { limiter, dareLimiter } from "./middleware/rateLimiter.js";
+import suggestedDareRoutes from "./routes/suggestedDareRoutes.js";
+import {
+  limiter,
+  dareLimiter,
+  suggestionLimiter,
+} from "./middleware/rateLimiter.js";
 
 const PORT = process.env.PORT || 5000;
 
@@ -24,6 +29,8 @@ app.use(express.json());
 
 app.use("/api", limiter);
 app.use("/api/dares", dareLimiter, dareRoutes);
+
+app.use("/api/suggestions", suggestionLimiter, suggestedDareRoutes);
 
 app.get("/", (req, res) => {
   res.send("Server Running 🚀");

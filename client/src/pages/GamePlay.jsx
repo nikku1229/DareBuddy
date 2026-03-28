@@ -24,7 +24,7 @@ export default function GamePlay() {
         setDares(res.data);
       } catch (err) {
         showToast("Network Error");
-        navigate("setup");
+        navigate("/setup");
       } finally {
         setLoader(false);
       }

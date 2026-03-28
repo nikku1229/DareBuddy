@@ -19,3 +19,13 @@ export const dareLimiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
 });
+
+export const suggestionLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 20,
+  message: {
+    message: "Too many suggestion request",
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
