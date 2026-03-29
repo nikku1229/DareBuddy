@@ -1,6 +1,8 @@
 import { useState, Activity } from "react";
 import { useNavigate } from "react-router-dom";
 import { useGame } from "../context/GameContext";
+import { useAlert } from "../context/AlertContext";
+import Toast from "../components/Toast";
 import CrossIcon from "../assets/Icons/CrossIcon.svg";
 import Logo from "../assets/Logos/Favicon.png";
 
@@ -13,6 +15,7 @@ function GameHeader({ players, category, type }) {
     setCustomDare,
     setCustomDares,
   } = useGame();
+  const { showToast } = useAlert();
   const [isCustomDareFieldVisible, setIsCustomDareVisible] = useState(false);
 
   const navigate = useNavigate();
@@ -23,7 +26,7 @@ function GameHeader({ players, category, type }) {
 
     setCustomDares([...customDares, customDare]);
     setCustomDare("");
-    alert("dare added");
+    showToast("Dare Added");
   };
 
   return (
@@ -59,6 +62,7 @@ function GameHeader({ players, category, type }) {
       </div>
       <Activity mode={isCustomDareFieldVisible ? "visible" : "hidden"}>
         <section className="custom-dare-section">
+          <Toast />
           <div className="custom-dare-field">
             <div className="head">
               <h3>Type your custom dare</h3>

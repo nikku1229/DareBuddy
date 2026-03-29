@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
-import { fetchSuggestions } from "../services/suggestionService";
+import {
+  fetchSuggestions,
+  deleteSuggestions,
+} from "../services/suggestionService";
 import { useSuggestions } from "../context/SuggestionsContext";
 import { useAlert } from "../context/AlertContext";
 import Header from "../components/Header";
@@ -28,20 +31,31 @@ function suggestionsPage() {
     }
   };
 
+  const handleDelete = async (id) => {
+    try {
+      const res = await deleteSuggestions(id);
+      console.log(res.data);
+      getData();
+      showToast("Delete Successful");
+    } catch (err) {
+      showToast("Failed to delete");
+    }
+  };
+
+  const getData = async () => {
+    try {
+      setLoader(true);
+      const res = await fetchSuggestions();
+      setSuggestedDares(res.data);
+    } catch (err) {
+      showToast("Network Error");
+    } finally {
+      setLoader(false);
+    }
+  };
+
   useEffect(() => {
     if (!isLogin) return;
-
-    const getData = async () => {
-      try {
-        setLoader(true);
-        const res = await fetchSuggestions();
-        setSuggestedDares(res.data);
-      } catch (err) {
-        showToast("Network Error");
-      } finally {
-        setLoader(false);
-      }
-    };
 
     getData();
   }, [isLogin]);
@@ -83,10 +97,16 @@ function suggestionsPage() {
                     <ul>
                       {suggestedDares.map((d, i) => (
                         <li className="list" key={i}>
-                          <h2 className="child1">{d.dare}</h2>
+                          <h2>{d.dare}</h2>
                           <h2>{d.category}</h2>
                           <h2>{d.type}</h2>
                           <h2>{d.status}</h2>
+                          <div
+                            className="delete"
+                            onClick={() => handleDelete(d._id)}
+                          >
+                            Delete
+                          </div>
                         </li>
                       ))}
                     </ul>

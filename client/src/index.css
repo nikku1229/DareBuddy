@@ -200,7 +200,7 @@ header {
     flex-direction: column;
     gap: 20px;
 
-    .loader{
+    .loader {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -1080,7 +1080,22 @@ header {
       background-color: var(--dark-gray);
       border-radius: 10px;
       border: 1px solid var(--light-opacity-20);
-      align-content: center;
+      align-items: center;
+
+      h2 {
+        max-width: 20%;
+        height: max-content;
+      }
+
+      .delete {
+        background-color: var(--primary-color);
+        padding: 5px 8px;
+        border-radius: 5px;
+        color: var(--dark);
+        cursor: pointer;
+        font-size: 16px;
+        text-align: center;
+      }
     }
   }
 
@@ -1341,6 +1356,14 @@ header {
     h2:nth-child(4) {
       grid-area: 3/1/4/3;
     }
+
+    .delete {
+      grid-area: 3 / 2 / 4 / 3;
+    }
+  }
+
+  .list h2 {
+    max-width: 100% !important;
   }
 
   .suggestion-box-section {

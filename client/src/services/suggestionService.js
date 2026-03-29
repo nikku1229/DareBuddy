@@ -17,3 +17,12 @@ export const addSuggestions = (data) => {
     },
   });
 };
+
+// DELETE SUGGESTIONS
+export const deleteSuggestions = (id) => {
+  return API.delete(`/suggestions/${id}`, {
+    headers: {
+      "x-game-key": import.meta.env.VITE_GAME_KEY,
+    },
+  });
+};
