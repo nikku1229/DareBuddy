@@ -35,7 +35,6 @@ function suggestionsPage() {
   const handleDelete = async (id) => {
     try {
       const res = await deleteSuggestions(id);
-      console.log(res.data);
       getData();
       showToast("Delete Successful");
     } catch (err) {
@@ -47,7 +46,6 @@ function suggestionsPage() {
     try {
       setLoader(true);
       const res = await fetchSuggestions();
-      console.log(res.data);
       setSuggestedDares(res.data);
     } catch (err) {
       showToast("Network Error");
