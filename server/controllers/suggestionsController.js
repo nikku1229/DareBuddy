@@ -40,3 +40,20 @@ export const deleteSuggestedDare = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+// 🔹 UPDATE SUGGESTED STATUS
+export const updateSuggestedStatusDare = async (req, res) => {
+  try {
+    const { status } = req.body;
+
+    await SuggestedDare.findByIdAndUpdate(
+      req.params.id,
+      { $set: { status } },
+      { returnDocument: "after" },
+    );
+
+    res.status(200).json({ message: "Update Successful" });
+  } catch (error) {
+    res.status(500).json({ message: "Error updateing status" });
+  }
+};

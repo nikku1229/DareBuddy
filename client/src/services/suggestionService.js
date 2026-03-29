@@ -26,3 +26,16 @@ export const deleteSuggestions = (id) => {
     },
   });
 };
+
+// UPDATE SUGGESTIONS STATUS
+export const updateStatusSuggestions = (id, status) => {
+  return API.patch(
+    `/suggestions/${id}/status`,
+    { status },
+    {
+      headers: {
+        "x-game-key": import.meta.env.VITE_GAME_KEY,
+      },
+    },
+  );
+};

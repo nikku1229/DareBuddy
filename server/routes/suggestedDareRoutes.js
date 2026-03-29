@@ -3,6 +3,7 @@ import {
   getSuggestedDare,
   addSuggestedDare,
   deleteSuggestedDare,
+  updateSuggestedStatusDare,
 } from "../controllers/suggestionsController.js";
 import { verifyKey } from "../middleware/auth.js";
 
@@ -16,5 +17,8 @@ router.post("/", verifyKey, addSuggestedDare);
 
 // DELETE SUGGESTION
 router.delete("/:id", verifyKey, deleteSuggestedDare);
+
+// UPDATE SUGGESTION
+router.patch("/:id/status", verifyKey, updateSuggestedStatusDare);
 
 export default router;

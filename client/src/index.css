@@ -1085,6 +1085,27 @@ header {
       h2 {
         max-width: 20%;
         height: max-content;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        text-transform: capitalize;
+
+        &:nth-child(1) {
+          width: 40%;
+        }
+
+        &:nth-child(2) {
+          width: 20%;
+        }
+
+        &:nth-child(3) {
+          width: 20%;
+        }
+
+        &:nth-child(4) {
+          width: 7%;
+          text-align: center;
+        }
       }
 
       .delete {
@@ -1095,6 +1116,68 @@ header {
         cursor: pointer;
         font-size: 16px;
         text-align: center;
+      }
+
+      .status {
+        padding: 5px;
+        font-size: 18px;
+        border-radius: 5px;
+      }
+
+      .status.pending {
+        background-color: var(--light-gray);
+        color: var(--dark);
+      }
+
+      .status.approved {
+        background-color: var(--secondary-color);
+        color: var(--dark);
+      }
+
+      .status.rejected {
+        background-color: red;
+        color: var(--light);
+      }
+    }
+
+    .list:hover {
+      border: 1px solid var(--light);
+      cursor: pointer;
+      display: grid;
+      gap: 10px;
+
+      h2 {
+        overflow: visible;
+        white-space: wrap;
+      }
+
+      h2:nth-child(1) {
+        grid-area: 1/1/2/3;
+        width: 100%;
+        max-width: 100%;
+      }
+
+      h2:nth-child(2) {
+        grid-area: 2/1/3/2;
+        width: 100%;
+        max-width: 100%;
+      }
+
+      h2:nth-child(3) {
+        grid-area: 3/1/4/3;
+        width: 100%;
+        max-width: 100%;
+      }
+
+      h2:nth-child(4) {
+        grid-area: 2/2/3/3;
+        width: 100%;
+        max-width: max-content;
+      }
+
+      .delete {
+        grid-area: 3 / 2 / 4 / 3;
+        width: 100%;
       }
     }
   }
@@ -1364,6 +1447,17 @@ header {
 
   .list h2 {
     max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  .list .status {
+    width: 50% !important;
+  }
+
+  .list:hover {
+    .status {
+      width: 100% !important;
+    }
   }
 
   .suggestion-box-section {

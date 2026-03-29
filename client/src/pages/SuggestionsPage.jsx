@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import {
   fetchSuggestions,
   deleteSuggestions,
+  updateStatusSuggestions,
 } from "../services/suggestionService";
 import { useSuggestions } from "../context/SuggestionsContext";
 import { useAlert } from "../context/AlertContext";
@@ -46,9 +47,25 @@ function suggestionsPage() {
     try {
       setLoader(true);
       const res = await fetchSuggestions();
+      console.log(res.data);
       setSuggestedDares(res.data);
     } catch (err) {
       showToast("Network Error");
+    } finally {
+      setLoader(false);
+    }
+  };
+
+  const handleStatus = async (id, status) => {
+    try {
+      setLoader(true);
+
+      await updateStatusSuggestions(id, status);
+
+      showToast(`Marked as ${status}`);
+      getData();
+    } catch (err) {
+      showToast("Failed to update status");
     } finally {
       setLoader(false);
     }
@@ -100,7 +117,18 @@ function suggestionsPage() {
                           <h2>{d.dare}</h2>
                           <h2>{d.category}</h2>
                           <h2>{d.type}</h2>
-                          <h2>{d.status}</h2>
+                          <h2
+                            className={`status ${d.status === "approved" && "approved"} ${d.status === "rejected" && "rejected"} ${d.status === "pending" && "pending"}`}
+                            onClick={() => {
+                              d.status === "pending"
+                                ? handleStatus(d._id, "approved")
+                                : d.status === "approved"
+                                  ? handleStatus(d._id, "rejected")
+                                  : handleStatus(d._id, "pending");
+                            }}
+                          >
+                            {d.status}
+                          </h2>
                           <div
                             className="delete"
                             onClick={() => handleDelete(d._id)}
